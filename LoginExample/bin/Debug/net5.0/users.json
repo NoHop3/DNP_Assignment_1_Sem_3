@@ -1,0 +1,29 @@
+[
+  {
+    "UserName": "Stefan",
+    "Domain": "via.dk",
+    "City": "Horsens",
+    "BirthYear": 1986,
+    "Role": "Teacher",
+    "SecurityLevel": 5,
+    "Password": "123456"
+  },
+  {
+    "UserName": "Valeriu",
+    "Domain": "hotmail.com",
+    "City": "Aarhus",
+    "BirthYear": 1998,
+    "Role": "Student",
+    "SecurityLevel": 3,
+    "Password": "123456"
+  },
+  {
+    "UserName": null,
+    "Domain": "via.com",
+    "City": "Vejle",
+    "BirthYear": 1973,
+    "Role": "Guest",
+    "SecurityLevel": 1,
+    "Password": "123456"
+  }
+]

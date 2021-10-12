@@ -1,0 +1,157 @@
+﻿@page "/people"
+
+@using LoginExample.Data
+@using LoginExample.Models
+@using global::Models
+@inject NavigationManager NavigationManager
+@inject IAdultService Data
+
+<h1>List of Adults</h1>
+
+<p>Filter by ID: <input type="number" @oninput="@((args) => FilterByAdultId(args))" style="width: 50px"/></p>
+<p>Filter by Gender: <br/>
+    <select class="form-control selectpicker" @onchange="@((args) => FilterByGender(args))" style="width: 100px">
+        <option>Both</option>
+        <option>Male</option>
+        <option>Female</option>
+    </select>
+</p>
+@if (adultsToShow == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else if (!adultsToShow.Any())
+{
+    <p>
+        <em>No items exist. Please add some.</em>
+    </p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th> 
+            <th>First name</th> 
+            <th>Last name </th> 
+            <th>Hair color</th>
+            <th>Eye Color</th>
+            <th>Age</th>
+            <th>Weight</th>
+            <th>Height</th>
+            <th>Gender</th>
+            <th>Remove</th>
+            <th>Edit</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in adultsToShow)
+        {
+            <tr>
+                <td>@item.Id</td> 
+                <td>@item.FirstName</td> 
+                <td>@item.LastName</td> 
+                <td>@item.HairColor</td> 
+                <td>@item.EyeColor</td> 
+                <td>@item.Age</td> 
+                <td>@item.Weight</td> 
+                <td>@item.Height</td> 
+                <td>@item.Sex</td>
+                <td><button @onclick="@(() => RemoveAdult(item.Id))">
+                        <i class="oi oi-trash" style="color:red" />
+                    </button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IList<Adult> allAdults;
+    private IList<Adult> adultsToShow;
+    
+    private int? filterById;
+    private string? filterByGender;
+
+    protected override async Task OnInitializedAsync()
+    {
+        allAdults = Data.GetAdults();
+        adultsToShow = allAdults;
+    }
+    
+
+    private void RemoveAdult(int adultId)
+    {
+        Adult adultToRemove = allAdults.First(t => t.Id == adultId);
+        Data.RemovePerson(adultId);
+        allAdults.Remove(adultToRemove);
+        adultsToShow.Remove(adultToRemove);
+    }
+
+    private void FilterByAdultId(ChangeEventArgs args)
+    {
+        filterById = null;
+        try
+        {
+            filterById = int.Parse(args.Value.ToString());
+        }
+        catch (Exception ignored)
+        {
+        }
+        ExecuteFilter();
+    }
+
+
+    private void FilterByGender(ChangeEventArgs args)
+    {
+        filterByGender = null;
+        Console.WriteLine(args.Value.ToString());
+        try
+        {
+            switch (args.Value.ToString())
+            {
+                case "Male":
+                {
+                    filterByGender = "M";
+                    break;
+                }
+                case "Female":
+                {
+                    filterByGender = "F";
+                    break;
+                }
+                case "Non-binary":
+                {
+                    filterByGender = "N";
+                    break;
+                }
+                default:
+                {
+                    filterByGender = null;
+                    break;
+                }
+            }
+        }
+        catch (Exception ignored)
+        {
+        }
+        ExecuteFilter();
+    }
+    
+    private void ExecuteFilter()
+    {
+        adultsToShow = allAdults.Where(t => 
+            (filterById != null && t.Id == filterById || filterById == null)
+            && (filterByGender!=null && (filterByGender.Equals(t.Sex)) || filterByGender==null))
+            .ToList();
+    }
+
+    private void Edit(int itemAdultId)
+    {
+        NavigationManager.NavigateTo($"EditAdult/{(itemAdultId)}");
+    }
+
+}

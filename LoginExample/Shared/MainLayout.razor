@@ -1,0 +1,44 @@
+﻿@using LoginComponent
+@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<div class="sidebar">
+    <NavMenu/>
+</div>
+
+<div class="main">
+
+    <div class="top-row px-4">
+        <Login/>
+        <AuthorizeView>
+            <Authorized>
+                
+            </Authorized>
+        <NotAuthorized>
+            <a href="/Register" target="_blank">Register</a>
+        </NotAuthorized>
+        </AuthorizeView>
+    </div>
+
+    <div class="content px-4">
+        @Body
+    </div>
+</div>
+
+@code{
+
+    [CascadingParameter]
+    protected Task<AuthenticationState> AuthStat { get; set; }
+
+    /*protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        var user = (await AuthStat).User;
+        if(!user.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo($"/Index");
+            // NavigationManager.NavigateTo($"/Login?returnUrl={Uri.EscapeDataString(NavigationManager.Uri)}");
+        }
+    }*/
+}

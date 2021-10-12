@@ -1,0 +1,78 @@
+﻿@page "/Register"
+
+@using LoginExample.Models
+@using LoginExample.Data
+@inject IAdultService Data
+@inject NavigationManager NavigationManager
+
+<h3>Register</h3>
+
+<EditForm Model="@newUser" OnValidSubmit="@AddNewUser">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+    <div class="form-group">
+        Username:<br/>
+        <input type="text" @bind-value="newUser.UserName"/>
+    </div>
+    <div class="form-group">
+        Password:<br/>
+        <input type="password" @bind-value="newUser.Password"/>
+    </div>
+    <div class="form-group">
+        Role:<br/>
+        <select class="form-group selectpicker" @onchange="@((args) => ChosenRole(args) )" style="width: 150px" >
+            <option>Teacher</option>
+            <option>Student</option>
+            <option>Secretary</option>
+        </select>
+    </div>
+    <div class="form-group">
+        Domain:<br/>
+        <input type="text" @bind-value="newUser.Domain"/>
+    </div>
+    <div class="form-group">
+        Birth Year:<br/>
+        <input type="date" @onchange="@((args) => ChosenBirthDate(args))"/>
+    </div>
+    <div class="form-group">
+        City:<br/>
+        <input type="text" @bind-value="newUser.City"/>
+    </div>
+    <div class="form-group">
+            Security Level:<br/>
+            <input type="number" @bind-value="newUser.SecurityLevel"/>
+        </div>
+    <p class="actions">
+        <button class="btn btn-outline-dark" type="submit" @onclick="RegisterUser" >Register</button>
+    </p>
+</EditForm>
+
+@code {
+    private User newUser = new User();
+    private string? birthDateString;
+    private string? role = "Guest";
+
+    private void AddNewUser()
+    {
+        newUser.BirthYear = int.Parse(birthDateString.Substring(0, 4));
+        Data.AddNewUser(newUser);
+        NavigationManager.NavigateTo("/");
+    }
+
+
+    private void ChosenBirthDate(ChangeEventArgs args)
+    {
+        birthDateString = args.Value.ToString().TrimStart('0');
+    }
+
+    private void ChosenRole(ChangeEventArgs args)
+    {
+        newUser.Role = args.Value.ToString();
+    }
+
+    private void RegisterUser()
+    {
+        NavigationManager.NavigateTo($"/");
+    }
+
+}
