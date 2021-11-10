@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Persistence" />
+        <Folder Include="Persistence"/>
     </ItemGroup>
 
 </Project>

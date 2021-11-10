@@ -8,7 +8,7 @@ using Models;
 
 namespace LoginExample.Data.Impl
 {
-    public class FileContext : IAdultService, IUserService
+    public class AdultData : IAdultService, IUserService
     {
         public IList<Adult> Adults { get; private set; }
         public IList<User> Users { get; private set; }

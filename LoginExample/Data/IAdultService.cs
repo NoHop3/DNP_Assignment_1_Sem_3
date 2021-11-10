@@ -6,12 +6,12 @@ namespace LoginExample.Data
 {
     public interface IAdultService
     {
-        IList<Adult> GetAdults();
-        IList<User> GetUsers();
-        public User ValidateUser(string userName, string password);
-        public void AddNewUser(User user);
-        void AddPerson(Adult adult);
-        void RemovePerson(int adultId);
-        Adult Get(int id);
+        Task<IList<Adult>> GetAdultsAsync();
+        Task<IList<User>> GetUsersAsync();
+        Task ValidateUserAsync(string userName, string password);
+        Task AddNewUserAsync(User user);
+        Task AddPersonAsync(Adult adult);
+        Task RemovePersonAsync(int adultId);
+        Task<Adult> GetAsync(int id);
     }
 }

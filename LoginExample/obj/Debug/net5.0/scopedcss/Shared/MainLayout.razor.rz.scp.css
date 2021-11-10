@@ -21,15 +21,15 @@
     align-items: center;
 }
 
-    .top-row[b-fk4evnc861]  a, .top-row .btn-link[b-fk4evnc861] {
-        white-space: nowrap;
-        margin-left: 1.5rem;
-    }
+.top-row[b-fk4evnc861] a, .top-row .btn-link[b-fk4evnc861] {
+    white-space: nowrap;
+    margin-left: 1.5rem;
+}
 
-    .top-row a:first-child[b-fk4evnc861] {
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+.top-row a:first-child[b-fk4evnc861] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 @media (max-width: 640.98px) {
     .top-row:not(.auth)[b-fk4evnc861] {
